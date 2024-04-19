@@ -3,7 +3,7 @@ package keyword
 type KeyWord uint
 
 const (
-	ABORT KeyWord = iota
+	ABORT KeyWord = 1 + iota
 	ABS
 	ABSOLUTE
 	ACTION
