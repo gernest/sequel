@@ -1,8 +1,6 @@
 package dialect
 
 import (
-	"strings"
-
 	"github.com/gernest/sequel/stream"
 )
 
@@ -10,7 +8,7 @@ type Dialect interface {
 	ID() string
 	IsDelimitedIdentStart(ch rune) bool
 	IdentQuoteStyle(ident string) rune
-	IsProperIdentInsideQuote(r *strings.Reader) bool
+	IsProperIdentInsideQuote(r stream.Runes) bool
 	IsIdentStart(ch rune) bool
 	IsIdentPart(ch rune) bool
 	SupportsFilterDuringAggregation() bool
@@ -22,6 +20,8 @@ type Dialect interface {
 	ConvertTypeBeforeValues() bool
 }
 type Base struct{}
+
+var _ Dialect = (*Base)(nil)
 
 func (Base) ID() string                                   { return "" }
 func (Base) IsDelimitedIdentStart(ch rune) bool           { return ch == '"' || ch == '`' }
