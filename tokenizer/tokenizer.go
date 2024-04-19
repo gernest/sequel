@@ -3,11 +3,34 @@ package tokenizer
 import (
 	"fmt"
 	"strings"
+
+	keyword "github.com/gernest/sequel/ast/keywords"
 )
 
 type Token interface {
 	fmt.Formatter
 	t()
+}
+
+type Word struct {
+	// The value of the token, without the enclosing quotes, and with the
+	// escape sequences (if any) processed (TODO: escapes are not handled)
+	Value string
+	// An identifier can be "quoted" (&lt;delimited identifier> in ANSI parlance).
+	// The standard and most implementations allow using double quotes for this,
+	// but some implementations support other quoting styles as well (e.g. \[MS SQL])
+	QUoteStyle *rune
+	// If the word was not quoted and it matched one of the known keywords,
+	// this will have one of the values from dialect::keywords, otherwise empty
+	Keyword keyword.KeyWord
+}
+
+func (w Word) Format(f fmt.State, verb rune) {
+	if w.QUoteStyle != nil {
+		fmt.Fprintf(f, "%c%s%c", *w.QUoteStyle, w.Value, *w.QUoteStyle)
+	} else {
+		f.Write([]byte(w.Value))
+	}
 }
 
 type WhiteSpace interface {
