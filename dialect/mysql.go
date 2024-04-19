@@ -34,7 +34,7 @@ func (MySql) IsDelimitedIdentStart(ch rune) bool {
 	return ch == '`'
 }
 
-func (MySql) IdentQuoteStyle(ch rune) *rune {
+func (MySql) IdentQuoteStyle(_ string) *rune {
 	var backTick = '`'
 	return &backTick
 }
