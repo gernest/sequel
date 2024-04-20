@@ -19,3 +19,11 @@ func IsIdentStart(ch rune) bool {
 func IsIdentPart(ch rune) bool {
 	return Lower(ch) || Upper(ch) || Digit(ch) || ch == '_'
 }
+
+func IsHex(r rune) bool {
+	return (r >= '0' && r <= '9' || r >= 'a' && r <= 'f' || r >= 'A' && r <= 'F')
+}
+
+func IsOctet(r rune) bool {
+	return (r >= '0' && r <= '7')
+}
