@@ -79,6 +79,16 @@ func (t *Tokenizer) NextToken() token.Token {
 	switch ch {
 	case ' ':
 		return t.consumeAndReturn(token.Space{})
+	case '\t':
+		return t.consumeAndReturn(token.Tab{})
+	case '\n':
+		return t.consumeAndReturn(token.NewLine{})
+	case '\r':
+		t.state.Next()
+		if t.state.Peek() == '\n' {
+			t.state.Next()
+		}
+		return token.NewLine{}
 	default:
 		return nil
 	}
